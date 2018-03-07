@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="tracked_persons_topic" default="tracked_persons"/>
+  <arg name="object_detection_topic" default="object_detection"/>
+  
+  <node pkg="tuw_object_converter" type="detection_to_spencer_tracked_person_node" name="detection_to_spencer_tracked_person_node" output="screen">
+    <remap from="tracked_persons_topic" to="$(arg tracked_persons_topic)" />
+    <remap from="object_detection_topic" to="$(arg object_detection_topic)" />
+  </node>
+</launch>
+

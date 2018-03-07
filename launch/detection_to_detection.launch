@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="object_detection_in_topic" default="human_objects"/>
+  <arg name="object_detection_out_topic" default="human_detections"/>
+  <arg name="base_link_frame" default="p3dx/base_link"/>
+  <arg name="fov_filter" default="true"/>
+  
+  <node pkg="tuw_object_converter" type="array_to_detection_node" name="array_to_detection_node" output="screen">
+    <remap from="detection_in" to="$(arg object_detection_in_topic)" />
+    <remap from="detection_out" to="$(arg object_detection_out_topic)" />
+    <param name="base_link_frame" value="$(arg base_link_frame)" />
+    <param name="fov_filter" value="$(arg fov_filter)"/>
+  </node>
+</launch>
