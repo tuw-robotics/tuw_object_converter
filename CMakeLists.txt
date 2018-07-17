@@ -9,13 +9,6 @@ add_definitions(-std=c++11)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  tuw_object_msgs
-  dynamic_reconfigure
-  tf
-  spencer_tracking_msgs
-)
 
 if(SPENCER)
   find_package(catkin REQUIRED COMPONENTS
