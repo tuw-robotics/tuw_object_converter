@@ -30,7 +30,7 @@
  *   POSSIBILITY OF SUCH DAMAGE.                                           *
  ***************************************************************************/
 
-#include "detection_to_detection_node.h"
+#include "tuw_object_converter/detection_to_detection_node.h"
 #include <geometry_msgs/PoseWithCovariance.h>
 #include <cmath>
 #include <tf/tf.h>

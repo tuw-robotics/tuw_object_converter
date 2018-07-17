@@ -30,7 +30,7 @@
  *   POSSIBILITY OF SUCH DAMAGE.                                           *
  ***************************************************************************/
 
-#include "detection_to_spencer_tracked_person.h"
+#include "tuw_object_converter/detection_to_spencer_tracked_person.h"
 
 DetectionToSpencerTrackedPersonNode::DetectionToSpencerTrackedPersonNode(ros::NodeHandle& nh) : nh_(nh), nh_private_("~")
 {  

@@ -37,6 +37,7 @@
 #include <dynamic_reconfigure/server.h>
 #include <tf/transform_listener.h>
 #include <visualization_msgs/Marker.h>
+#include <random>
 
 class ArrayToDetectionNode
 {

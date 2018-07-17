@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(tuw_object_converter)
 
+option(SPENCER "include spencer msg converter node")
+
 ## Add support for C++11, supported in ROS Kinetic and newer
 add_definitions(-std=c++11)
 
@@ -14,6 +16,23 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   spencer_tracking_msgs
 )
+
+if(SPENCER)
+  find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    tuw_object_msgs
+    dynamic_reconfigure
+    tf
+    spencer_tracking_msgs
+  )
+else(SPENCER)
+  find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    tuw_object_msgs
+    dynamic_reconfigure
+    tf
+  )
+endif(SPENCER)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -135,9 +154,11 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(array_to_detection_node src/array_to_detection_node.cpp)
-add_executable(detection_to_spencer_tracked_person_node src/detection_to_spencer_tracked_person.cpp)
 add_executable(detection_to_detection_node src/detection_to_detection_node.cpp)
-add_executable(detection_to_spencer_detected_person_node src/detection_to_spencer_detected_person.cpp)
+if(SPENCER)
+  add_executable(detection_to_spencer_detected_person_node src/detection_to_spencer_detected_person.cpp)
+  add_executable(detection_to_spencer_tracked_person_node src/detection_to_spencer_tracked_person.cpp)
+endif(SPENCER)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -148,26 +169,28 @@ add_executable(detection_to_spencer_detected_person_node src/detection_to_spence
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(array_to_detection_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(detection_to_spencer_tracked_person_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(detection_to_detection_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(detection_to_spencer_detected_person_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+if(SPENCER)
+  add_dependencies(detection_to_spencer_detected_person_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+  add_dependencies(detection_to_spencer_tracked_person_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+endif(SPENCER)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(array_to_detection_node
   ${catkin_LIBRARIES}
 )
-
-target_link_libraries(detection_to_spencer_tracked_person_node
-  ${catkin_LIBRARIES}
-)
-
 target_link_libraries(detection_to_detection_node
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(detection_to_spencer_detected_person_node
-  ${catkin_LIBRARIES}
-)
+if(SPENCER)
+  target_link_libraries(detection_to_spencer_tracked_person_node
+    ${catkin_LIBRARIES}
+  )
+  target_link_libraries(detection_to_spencer_detected_person_node
+    ${catkin_LIBRARIES}
+  )
+endif(SPENCER)
 
 #############
 ## Install ##
