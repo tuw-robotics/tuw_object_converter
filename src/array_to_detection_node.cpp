@@ -55,6 +55,7 @@ void ArrayToDetectionNode::objectArrayCallback(const tuw_object_msgs::ObjectWith
   detection.header = msg.header;
   detection.objects = msg.objects;
   detection.type = tuw_object_msgs::ObjectDetection::OBJECT_TYPE_PERSON;
+  detection.sensor_type = tuw_object_msgs::ObjectDetection::SENSOR_TYPE_GENERIC_RGBD;
   
   if(fov_filter_)
     fov_filter(detection);
