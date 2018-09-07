@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="detected_persons_topic" default="detected_persons"/>
+  <arg name="object_detection_topic" default="object_detection"/>
+  
+  <node pkg="tuw_object_converter" type="spencer_detected_person_to_detection_node" name="spencer_detected_person_to_detection_node_$(arg object_detection_topic)" output="screen">
+    <remap from="detected_persons_topic" to="$(arg detected_persons_topic)" />
+    <remap from="object_detection_topic" to="$(arg object_detection_topic)" />
+  </node>
+</launch>
+

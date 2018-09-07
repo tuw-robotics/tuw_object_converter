@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(tuw_object_converter)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 option(SPENCER "include spencer msg converter node")
 
 ## Add support for C++11, supported in ROS Kinetic and newer
@@ -158,6 +160,7 @@ add_executable(detection_to_detection_node src/detection_to_detection_node.cpp)
 if(SPENCER)
   add_executable(detection_to_spencer_detected_person_node src/detection_to_spencer_detected_person.cpp)
   add_executable(detection_to_spencer_tracked_person_node src/detection_to_spencer_tracked_person.cpp)
+  add_executable(spencer_detected_person_to_detection_node src/spencer_detected_person_to_detection.cpp)
 endif(SPENCER)
 
 ## Rename C++ executable without prefix
@@ -173,6 +176,7 @@ add_dependencies(detection_to_detection_node ${${PROJECT_NAME}_EXPORTED_TARGETS}
 if(SPENCER)
   add_dependencies(detection_to_spencer_detected_person_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
   add_dependencies(detection_to_spencer_tracked_person_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+  add_dependencies(spencer_detected_person_to_detection_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 endif(SPENCER)
 
 ## Specify libraries to link a library or executable target against
@@ -188,6 +192,9 @@ if(SPENCER)
     ${catkin_LIBRARIES}
   )
   target_link_libraries(detection_to_spencer_detected_person_node
+    ${catkin_LIBRARIES}
+  )
+  target_link_libraries(spencer_detected_person_to_detection_node
     ${catkin_LIBRARIES}
   )
 endif(SPENCER)

@@ -37,9 +37,12 @@
 
 ArrayToDetectionNode::ArrayToDetectionNode(ros::NodeHandle& nh) : nh_(nh), nh_private_("~")
 {  
+  sigma_x_ = 0.01;
+  sigma_y_ = 0.01;
+  
   sub_object_array_ = nh_.subscribe("object_array", 1, &ArrayToDetectionNode::objectArrayCallback, this);
-  pub_detection_ = nh_.advertise<tuw_object_msgs::ObjectDetection>("detection", 5);
-  pub_fov_visual_ = nh_.advertise<visualization_msgs::Marker>("fov_visual_marker", 5);
+  pub_detection_ = nh_.advertise<tuw_object_msgs::ObjectDetection>("detection", 1);
+  pub_fov_visual_ = nh_.advertise<visualization_msgs::Marker>("fov_visual_marker", 1);
   
   reconfigureFnc_ = boost::bind(&ArrayToDetectionNode::callbackParameters, this, _1, _2);
   reconfigureServer_.setCallback(reconfigureFnc_);
@@ -55,6 +58,7 @@ void ArrayToDetectionNode::objectArrayCallback(const tuw_object_msgs::ObjectWith
   detection.header = msg.header;
   detection.objects = msg.objects;
   detection.type = tuw_object_msgs::ObjectDetection::OBJECT_TYPE_PERSON;
+  detection.sensor_type = tuw_object_msgs::ObjectDetection::SENSOR_TYPE_GENERIC_RGBD;
   
   if(fov_filter_)
     fov_filter(detection);
